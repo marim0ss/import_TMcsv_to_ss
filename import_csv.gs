@@ -19,7 +19,7 @@ function importsheet(){
         if (file.getName() == fileName) {
           Logger.log('名前が一致するファイルのID:' + file.getId())
           
-          csv_ss_id = file.getId()
+          csv_ss_id = file.getId();
           let csv_ss = SpreadsheetApp.openById(csv_ss_id);
           let from_sheet = csv_ss.getActiveSheet();
           let values = from_sheet.getDataRange().getValues();
@@ -29,9 +29,13 @@ function importsheet(){
             sheet.appendRow(values[i])
           }
         }
+      Logger.log('id: ' + csv_ss_id +' のインポート完了せりっ☆');
       //終わったらファイルは削除する
-      
-      Logger.log(csv_ss_id +' のインポート完了せりっ☆');
+      let from_parents = file.getParents(),
+          folder = from_parents.next();
+          //Logger.log(folder.getName())
+      folder.removeFile(file);
+      Logger.log('id: ' + csv_ss_id +' はゴミ箱にポイっ☆');
     }
     Logger.log('全ファイルのインポート完了りっ☆')
   } catch(e) {
