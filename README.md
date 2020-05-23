@@ -1,0 +1,2 @@
+# import_TMcsv_to_ss
+商標のcsvをGASでスプシに読み込み
