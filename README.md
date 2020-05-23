@@ -1,2 +1,5 @@
 # import_TMcsv_to_ss
 商標のcsvをGASでスプシに読み込み
+https://docs.google.com/spreadsheets/d/1BWjOgh24W5g2uzdbTGIFk0knoz5BwXDK5hph3ev50XM/edit#gid=1254121038
+
+https://script.google.com/d/1wwMfkbAOfd1b_huZsr-VRnRHp_jZQg-3-c2bYcAfS31KYsOyiguXP0Zm/edit?mid=ACjPJvHCEdNjNlP-SGAskO6bcx_gDE0ZkU5_rgVvjlikls8c5vyR45zyAeyEmWeo5TQktlummQTp2cp_SxcZVfXiSRy69szsfKaScpDqJ94_ak3l9SriKGHrlJaOm_79vqnMzpiiBkJZM7OB&uiv=2
