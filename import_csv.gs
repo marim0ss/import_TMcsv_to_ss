@@ -11,31 +11,35 @@ function importsheet(){
         fileName = "syohyo", //対象とするcsv
         csv_ss_id = ''; //読み込むcsv id
 
-    let folders = DriveApp.getFoldersByName(folderName),
-        files = DriveApp.getFilesByName(fileName);  // 一覧を取得（複数ある可能性を考慮）
+    //tmフォルダ特定
+    let tm_checker_folder = DriveApp.getFolderById('1jLd0QcsGI5baqpm9WdtUb0-f7CupbdJN');
+    Logger.log(tm_checker_folder.getName());
+    
+    // １つのファイルでも複数個所に設置できるので、親フォルダは１つとは限らない
+    let tm_filesIte = tm_checker_folder.getFiles() // tmフォルダのファイル群を取得（イテレータ）
+    while (tm_filesIte.hasNext()) {
+      let tm_file = tm_filesIte.next();
+      console.log('このフォルダにあるfile Name: ' + tm_file.getName());
+      console.log('そのfile ID: ' + tm_file.getId());
 
-    while (files.hasNext()) {
-        let file = files.next();
-        if (file.getName() == fileName) {
-          Logger.log('名前が一致するファイルのID:' + file.getId())
-          
-          csv_ss_id = file.getId();
-          let csv_ss = SpreadsheetApp.openById(csv_ss_id);
-          let from_sheet = csv_ss.getActiveSheet();
-          let values = from_sheet.getDataRange().getValues();
-          
-          for (var i = 0; i < values.length; i++) {
-            //console.log(values[i])
-            sheet.appendRow(values[i])
-          }
+      if (tm_file.getName() == fileName ) {
+        console.log('------------------名前が一致するファイルをみっけ！------------------')
+        console.log('------------------名前：' + tm_file.getName() + '------------------')
+        console.log('------------------ID：' + tm_file.getId() + '------------------')
+        csv_ss_id = tm_file.getId();
+        let csv_ss = SpreadsheetApp.openById(csv_ss_id),
+            from_sheet = csv_ss.getActiveSheet(),
+            values = from_sheet.getDataRange().getValues();
+        
+        for (var i = 0; i < values.length; i++) {
+          //console.log(values[i])
+          sheet.appendRow(values[i])
         }
-      Logger.log('id: ' + csv_ss_id +' のインポート完了せりっ☆');
-      //終わったらファイルは削除する
-      let from_parents = file.getParents(),
-          folder = from_parents.next();
-          //Logger.log(folder.getName())
-      folder.removeFile(file);
-      Logger.log('id: ' + csv_ss_id +' はゴミ箱にポイっ☆');
+        Logger.log('id: ' + csv_ss_id +' のインポート完了せりっ☆');
+        tm_checker_folder.removeFile(tm_file); //removeFile: フォルダからファイルの所属を解除する
+        //(公式)ファイルは削除されないが、すべての親からファイルが削除された場合、そのファイルを検索するか[すべてのアイテム]ビューを使用しない限り、ドライブに表示されなくなる
+        Logger.log('id: ' + csv_ss_id +' はゴミ箱にポイっ☆');
+      }
     }
     Logger.log('全ファイルのインポート完了りっ☆')
   } catch(e) {
